@@ -35,7 +35,9 @@
 // alias Math methods - used a lot!
         var min = Math.min, max = Math.max, round = Math.floor, isStr = function (v) {
                 return $.type(v) === "string";
-            }
+            },
+            // compiler hack
+            __g = function(f) { return f;}
 
             /**
              * @param {!Object}   Instance
@@ -49,15 +51,11 @@
                             if (isStr(fn)) // 'name' of a function
                                 fn = eval(fn);
                             if ($.isFunction(fn))
-                                g(fn)(Instance);
+                                __g(fn)(Instance);
                         } catch (ex) {
                         }
                     }
-
-                function g(f) {
-                    return f;
-                }
-                 // compiler hack
+                 
             }
         ;
 
@@ -1187,12 +1185,12 @@
                             // execute the callback, if exists
                             if ($.isFunction(fn)) {
                                 if (args.length)
-                                    retVal = g(fn)(args[1]); // pass the argument parsed from 'list'
+                                    retVal = __g(fn)(args[1]); // pass the argument parsed from 'list'
                                 else if (hasPane)
                                 // pass data: pane-name, pane-element, pane-state, pane-options, and layout-name
-                                    retVal = g(fn)(pane, $Ps[pane], s, o, lName);
+                                    retVal = __g(fn)(pane, $Ps[pane], s, o, lName);
                                 else // must be a layout/container callback - pass suitable info
-                                    retVal = g(fn)(Instance, s, o, lName);
+                                    retVal = __g(fn)(Instance, s, o, lName);
                             }
                         } catch (ex) {
                             _log(options.errors.callbackError.replace(/EVENT/, $.trim((pane || "") + " " + lng)), false);
@@ -1222,11 +1220,6 @@
                         resizeChildren(pane + "", true); // compiler hack -force string
 
                     return retVal;
-
-                    function g(f) {
-                        return f;
-                    }
-                     // compiler hack
                 }
 
 
@@ -3075,8 +3068,8 @@
                  */
                 , destroy = function (evt_or_destroyChildren, destroyChildren) {
                     // UNBIND layout events and remove global object
-                    $(window).unbind("." + sID);  // resize & unload
-                    $(document).unbind("." + sID); // keyDown (hotkeys)
+                    $(window).off("." + sID);  // resize & unload
+                    $(document).off("." + sID); // keyDown (hotkeys)
 
                     if (typeof evt_or_destroyChildren === "object")
                     // stopPropagation if called by trigger("layoutdestroy") - use evtPane utility
@@ -3092,7 +3085,7 @@
                         .removeData("layout")
                         .removeData("layoutContainer")
                         .removeClass(options.containerClass)
-                        .unbind("." + sID) // remove ALL Layout events
+                        .off("." + sID) // remove ALL Layout events
                     ;
 
                     // remove all mask elements that have been created
