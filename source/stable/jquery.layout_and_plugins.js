@@ -3075,8 +3075,8 @@
                  */
                 , destroy = function (evt_or_destroyChildren, destroyChildren) {
                     // UNBIND layout events and remove global object
-                    $(window).unbind("." + sID);  // resize & unload
-                    $(document).unbind("." + sID); // keyDown (hotkeys)
+                    $(window).off("." + sID);  // resize & unload
+                    $(document).off("." + sID); // keyDown (hotkeys)
 
                     if (typeof evt_or_destroyChildren === "object")
                     // stopPropagation if called by trigger("layoutdestroy") - use evtPane utility
@@ -3092,7 +3092,7 @@
                         .removeData("layout")
                         .removeData("layoutContainer")
                         .removeClass(options.containerClass)
-                        .unbind("." + sID) // remove ALL Layout events
+                        .off("." + sID) // remove ALL Layout events
                     ;
 
                     // remove all mask elements that have been created
