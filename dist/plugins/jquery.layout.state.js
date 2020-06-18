@@ -93,10 +93,11 @@ $.ui.cookie = {
 				clear = true;
 			}
 		}
-		if (date)		params += ';expires='+ date.toUTCString();
-		if (o.path)		params += ';path='+ o.path;
-		if (o.domain)	params += ';domain='+ o.domain;
-		if (o.secure)	params += ';secure';
+		if (date)		params += '; expires='+ date.toUTCString();
+		if (o.path)		params += '; path='+ o.path;
+		if (o.domain)	params += '; domain='+ o.domain;
+		if (o.secure)	params += '; Secure; SameSite=' + o.sameSite;
+        if (o.httpOnly)	params += '; HttpOnly';
 		document.cookie = name +'='+ (clear ? "" : encodeURIComponent( val )) + params; // write or clear cookie
 	}
 
@@ -125,6 +126,9 @@ $.layout.defaults.stateManagement = {
 	,	path:	""	// blank = current page, '/' = entire website
 	,	expires: ""	// 'days' to keep cookie - leave blank for 'session cookie'
 	,	secure:	false
+    ,   sameSite: "Strict" //Default to strict but allow override to non
+	,   httpOnly: false //careful, JS - for now - does need to access the cookie
+	,   hostOnly: true
 	}
 };
 // Set stateManagement as a layout-option, NOT a pane-option
@@ -281,10 +285,10 @@ $.layout.state = {
 	 *	Convert stringified JSON back to a hash object
 	 *	@see		$.parseJSON(), adding in jQuery 1.4.1
 	 */
-,	decodeJSON: function (str) {
-		try { return $.parseJSON ? $.parseJSON(str) : window["eval"]("("+ str +")") || {}; }
-		catch (e) { return {}; }
-	}
+	 ,	decodeJSON: function (str) {
+        try { return JSON ? JSON.parse(str) : window["eval"]("("+ str +")") || {}; }
+        catch (e) { return {}; }
+    }
 
 
 ,	_create: function (inst) {
