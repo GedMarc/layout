@@ -1,8 +1,8 @@
 {
-	"name": "layout",
+	"name": "layout-jquery3",
 	"title": "UI Layout",
 	"description": "Create advanced UI layouts with sizable, collapsible, nested panels and tons of options. Layout can create any UI look you want; from simple headers or sidebars to a complex application with toolbars, menus, help-panels, status bars, sub-forms, etc. Integrates with and enhances other UI widgets, like tabs, accordions and dialogs, to create rich interfaces.",
-	"version": "1.8.3",
+	"version": "1.8.4",
 	"main": "dist/jquery.layout_and_plugins.js",
 	"keywords": [
 		"ui",

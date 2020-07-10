@@ -3,6 +3,12 @@ jQuery UI Layout
 
 <a href="https://snyk.io/test/github/GedMarc/layout?targetFile=package.json"><img src="https://snyk.io/test/github/GedMarc/layout/badge.svg?targetFile=package.json" alt="Known Vulnerabilities" data-canonical-src="https://snyk.io/test/github/GedMarc/layout?targetFile=package.json" style="max-width:100%;"></a>
 
+1.8.4
+-----------------
+- Allows custom storage co-ordinates using Persist.JS
+- Updated Persist.JS to use HTML 5 cookie detection
+- Create NPM coordinates layout-jquery3
+
 
 1.7.5
 ------------------
