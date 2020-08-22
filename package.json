@@ -39,7 +39,7 @@
 	"bugs": "https://groups.google.com/forum/#!forum/jquery-ui-layout",
 	"download": "https://github.com/allpro/layout/archive/master.zip",
 	"dependencies": {
-		"jquery": "^3.5.0",
-		"jquery-migrate": "^3.3.0"
+		"jquery": "^3.5.1",
+		"jquery-migrate": "^3.3.1"
 	}
 }
