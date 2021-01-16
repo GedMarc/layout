@@ -913,12 +913,12 @@
                 // layout/global options - NOT pane-options
                 layout: ("name,instanceKey,stateManagement,effects,inset,zIndexes,errors,"
                     + "zIndex,scrollToBookmarkOnLoad,showErrorMessages,maskPanesEarly,"
-                    + "outset,resizeWithWindow,resizeWithWindowDelay,resizeWithWindowMaxDelay,iframeFix,"
+                    + "outset,resizeWithWindow,resizeWithWindowDelay,resizeWithWindowMaxDelay,"
                     + "onresizeall,onresizeall_start,onresizeall_end,onload,onload_start,onload_end,onunload,onunload_start,onunload_end").split(",")
 // borderPanes: [ ALL options that are NOT specified as 'layout' ]
                 // default.panes options that apply to the center-pane (most options apply _only_ to border-panes)
                 , center: ("paneClass,contentSelector,contentIgnoreSelector,findNestedContent,applyDemoStyles,triggerEventsOnLoad,"
-                    + "showOverflowOnHover,maskContents,maskObjects,liveContentResizing,iframeFix,"
+                    + "showOverflowOnHover,maskContents,maskObjects,liveContentResizing,"
                     + "containerSelector,children,initChildren,resizeChildren,destroyChildren,"
                     + "onresize,onresize_start,onresize_end,onsizecontent,onsizecontent_start,onsizecontent_end").split(",")
                 // options that MUST be specifically set 'per-pane' - CANNOT set in the panes (defaults) key
@@ -5433,7 +5433,7 @@
      * http://www.gnu.org/licenses/gpl.html
      *
      */
-    jQuery.cookie = function (name, value, options) {
+    /*jQuery.cookie = function (name, value, options) {
         if (typeof value != 'undefined') { // name and value given, set cookie
             options = options || {};
             if (value === null) {
@@ -5475,6 +5475,8 @@
             return cookieValue;
         }
     };
+    */
+
 
 
     /**
