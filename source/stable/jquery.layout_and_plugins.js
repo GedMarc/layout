@@ -1,8 +1,8 @@
 /**
  * @preserve
- * jquery.layout 1.8.5
- * $Date: 2020-08-22 $
- * $Rev: 1.8.5 $
+ * jquery.layout 1.9.0
+ * $Date: 2024-01-17 $
+ * $Rev: 1.9.0 $
  *
  * Copyright (c) 2014 Kevin Dalman (http://jquery-dev.com)
  * Based on work by Fabrizio Balliano (http://www.fabrizioballiano.net)
@@ -85,8 +85,8 @@
      * GENERIC $.layout METHODS - used by all layouts
      */
             $.layout = {
-                version: "1.8.4"
-                , revision: 1.8004 // eg: ver 1.4.4 = rev 1.0404 - major(n+).minor(nn)+patch(nn+)
+                version: "1.9.0"
+                , revision: 1.9004 // eg: ver 1.4.4 = rev 1.0404 - major(n+).minor(nn)+patch(nn+)
 
                 // $.layout.browser REPLACES $.browser
                 , browser: {} // set below
@@ -593,7 +593,7 @@
                         , y = evt.pageY // evt.clientY ?
                     ;
                     // if X & Y are < 0, probably means is over an open SELECT
-                    return ($.layout.browser.msie && x < 0 && y < 0) || ((x >= L && x <= R) && (y >= T && y <= B));
+                    return ((x >= L && x <= R) && (y >= T && y <= B));
                 }
 
                 /**
@@ -664,22 +664,18 @@
                     , m = /(chrome)[ \/]([\w.]+)/.exec(u)
                     || /(webkit)[ \/]([\w.]+)/.exec(u)
                     || /(opera)(?:.*version|)[ \/]([\w.]+)/.exec(u)
-                    || /(msie) ([\w.]+)/.exec(u)
                     || u.indexOf("compatible") < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec(u)
                     || []
                     , b = m[1] || ""
                     , v = m[2] || 0
-                    , ie = b === "msie"
                     , cm = document.compatMode
                     , $s = $.support
                     , bs = $s.boxSizing !== undefined ? $s.boxSizing : $s.boxSizingReliable
-                    , bm = !ie || !cm || cm === "CSS1Compat" || $s.boxModel || false
+                    , bm = !cm || cm === "CSS1Compat" || $s.boxModel || false
                     , lb = $.layout.browser = {
                     version: v
                     , safari: b === "webkit" // webkit (NOT chrome) = safari
                     , webkit: b === "chrome" // chrome = webkit
-                    , msie: ie
-                    , isIE6: ie && v == 6
                     // ONLY IE reverts to old box-model - Note that compatMode was deprecated as of IE8
                     , boxModel: bm
                     , boxSizing: !!(typeof bs === "function" ? bs() : bs)
@@ -913,12 +909,12 @@
                 // layout/global options - NOT pane-options
                 layout: ("name,instanceKey,stateManagement,effects,inset,zIndexes,errors,"
                     + "zIndex,scrollToBookmarkOnLoad,showErrorMessages,maskPanesEarly,"
-                    + "outset,resizeWithWindow,resizeWithWindowDelay,resizeWithWindowMaxDelay,"
+                    + "outset,resizeWithWindow,resizeWithWindowDelay,resizeWithWindowMaxDelay,iframeFix,"
                     + "onresizeall,onresizeall_start,onresizeall_end,onload,onload_start,onload_end,onunload,onunload_start,onunload_end").split(",")
 // borderPanes: [ ALL options that are NOT specified as 'layout' ]
                 // default.panes options that apply to the center-pane (most options apply _only_ to border-panes)
                 , center: ("paneClass,contentSelector,contentIgnoreSelector,findNestedContent,applyDemoStyles,triggerEventsOnLoad,"
-                    + "showOverflowOnHover,maskContents,maskObjects,liveContentResizing,"
+                    + "showOverflowOnHover,maskContents,maskObjects,liveContentResizing,iframeFix,"
                     + "containerSelector,children,initChildren,resizeChildren,destroyChildren,"
                     + "onresize,onresize_start,onresize_end,onsizecontent,onsizecontent_start,onsizecontent_end").split(",")
                 // options that MUST be specifically set 'per-pane' - CANNOT set in the panes (defaults) key
@@ -2042,29 +2038,14 @@
                                     , margin: 0
                                 });
                                 // BODY
-                                if (browser.isIE6) {
-                                    // IE6 CANNOT use the trick of setting absolute positioning on all 4 sides - must have 'height'
-                                    $N.css({
-                                        width: "100%"
-                                        , height: "100%"
-                                        , border: "none" // no border or padding allowed when using height = 100%
-                                        , padding: 0  // ditto
-                                        , margin: 0
-                                        , position: "relative"
-                                    });
-                                    // convert body padding to an inset option - the border cannot be measured in IE6!
-                                    if (!o.inset)
-                                        o.inset = elDims($N).inset;
-                                } else { // use absolute positioning for BODY to allow borders & padding without overflow
-                                    $N.css({
+                                $N.css({
                                         width: "auto"
                                         , height: "auto"
                                         , margin: 0
                                         , position: "absolute" // allows for border and padding on BODY
                                     });
                                     // apply edge-positioning created above
-                                    $N.css(o.outset);
-                                }
+                                $N.css(o.outset);
                                 // set current layout-container dimensions
                                 $.extend(sC, elDims($N, o.inset)); // passing inset means DO NOT include insetX values
                             } else {
@@ -2474,7 +2455,7 @@
                         // ELSE setAsOpen() - called later by initHandles()
 
                         // RESET visibility now - pane will appear IF display:block
-                        $P.css("visibility", "visible");
+                        // $P.css("visibility", "visible");
 
                         // check option for auto-handling of pop-ups & drop-downs
                         if (o.showOverflowOnHover)
@@ -3917,9 +3898,6 @@
                             // if pane is positioned 'off-screen', then DO NOT screw with it!
                             else if (pane == "east" && !$P.css("left").match(/\-99999/))
                                 $P.css({left: "auto"});
-                            // fix anti-aliasing in IE - only needed for animations that change opacity
-                            if (browser.msie && o.fxOpacityFix && o.fxName_open != "slide" && $P.css("filter") && $P.css("opacity") == 1)
-                                $P[0].style.removeAttribute('filter');
                         }
                     }
 
@@ -4444,7 +4422,7 @@
                  * TODO: Sounds like a job for $P.outerWidth( sC.innerWidth ) SETTER METHOD
                  */
                             if (pane === "center") { // finished processing midPanes
-                                var fix = browser.isIE6 || !browser.boxModel;
+                                var fix = !browser.boxModel;
                                 if ($Ps.north && (fix || state.north.tagName == "IFRAME"))
                                     $Ps.north.css("width", cssW($Ps.north, sC.innerWidth));
                                 if ($Ps.south && (fix || state.south.tagName == "IFRAME"))
@@ -5423,60 +5401,6 @@
 
     )(jQuery);
 
-
-    /**
-     * Cookie plugin
-     *
-     * Copyright (c) 2006 Klaus Hartl (stilbuero.de)
-     * Dual licensed under the MIT and GPL licenses:
-     * http://www.opensource.org/licenses/mit-license.php
-     * http://www.gnu.org/licenses/gpl.html
-     *
-     */
-    /*jQuery.cookie = function (name, value, options) {
-        if (typeof value != 'undefined') { // name and value given, set cookie
-            options = options || {};
-            if (value === null) {
-                value = '';
-                options.expires = -1;
-            }
-            var expires = '';
-            if (options.expires && (typeof options.expires == 'number' || options.expires.toUTCString)) {
-                var date;
-                if (typeof options.expires == 'number') {
-                    date = new Date();
-                    date.setTime(date.getTime() + (options.expires * 24 * 60 * 60 * 1000));
-                } else {
-                    date = options.expires;
-                }
-                expires = '; expires=' + date.toUTCString(); // use expires attribute, max-age is not supported by IE
-            }
-            // CAUTION: Needed to parenthesize options.path and options.domain
-            // in the following expressions, otherwise they evaluate to undefined
-            // in the packed version for some reason...
-            var path = options.path ? '; path=' + (options.path) : '';
-            var domain = options.domain ? '; domain=' + (options.domain) : '';
-            var secure = options.secure ? '; secure; samesite=' + options.sameSite : '';
-            var httpOnly = options.httpOnly ? '; HttpOnly' : '';
-            document.cookie = [name, '=', encodeURIComponent(value), expires, path, domain, secure].join('');
-        } else { // only name given, get cookie
-            var cookieValue = null;
-            if (document.cookie && document.cookie != '') {
-                var cookies = document.cookie.split(';');
-                for (var i = 0; i < cookies.length; i++) {
-                    var cookie = String.prototype.trim(cookies[i]);
-                    // Does this cookie string begin with the name we want?
-                    if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                        break;
-                    }
-                }
-            }
-            return cookieValue;
-        }
-    };
-    */
-
     /**
      * @preserve jquery.layout.state 1.0
      * $Date: 2011-07-16 08:00:00 (Sat, 16 July 2011) $
@@ -6090,9 +6014,6 @@
                     , v = b.version
                     , r, sW, cW
                 ;
-                // we can ignore all browsers that fire window.resize event onZoom
-                if (!b.msie || v > 8)
-                    return false; // don't need to track zoom
                 if (s.deviceXDPI && s.systemXDPI) // syntax compiler hack
                     return calc(s.deviceXDPI, s.systemXDPI);
                 // everything below is just for future reference!
