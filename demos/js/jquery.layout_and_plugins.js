@@ -1,8 +1,8 @@
 /**
  * @preserve
- * jquery.layout 1.8.5
- * $Date: 2020-08-22 $
- * $Rev: 1.8.5 $
+ * jquery.layout 1.9.1
+ * $Date: 2026-07-23 $
+ * $Rev: 1.9.1 $
  *
  * Copyright (c) 2014 Kevin Dalman (http://jquery-dev.com)
  * Based on work by Fabrizio Balliano (http://www.fabrizioballiano.net)

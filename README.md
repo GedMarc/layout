@@ -3,6 +3,9 @@ jQuery UI Layout
 
 <a href="https://snyk.io/test/github/GedMarc/layout?targetFile=package.json"><img src="https://snyk.io/test/github/GedMarc/layout/badge.svg?targetFile=package.json" alt="Known Vulnerabilities" data-canonical-src="https://snyk.io/test/github/GedMarc/layout?targetFile=package.json" style="max-width:100%;"></a>
 
+- **Website:** https://gedmarc.github.io/layout/
+- **Live demos:** https://gedmarc.github.io/layout/demos/
+
 1.9.1
 -----------------
 - **CSP compliance**: removed all `eval()` usage from the layout core. String callbacks
@@ -112,9 +115,9 @@ Sourcecode was transferred to GitHub, which also allowed it to be _re-registered
 You can find Layout on the jQuery site at: http://plugins.jquery.com/layout 
 
 Documentation and other information is being updated for the latest version and will be migrated to GitHub. 
-In the meantime you can find information and demos on the widget's old website and in its forum...
+Historical information is still available on the widget's old website and in its forum...
 
-- Website: http://layout.jquery-dev.com
+- Legacy website: http://layout.jquery-dev.com
 - Support: https://groups.google.com/forum/#!forum/jquery-ui-layout
 
 More information will be added here soon. This is just to get the migration process started...
