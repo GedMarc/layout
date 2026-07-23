@@ -57,6 +57,27 @@
                 }
 
                 /**
+                 * CSP-safe replacement for eval().
+                 * Resolves a callback that was passed as a STRING - either a key registered
+                 * in $.layout.callbacks, or a (dotted) function-name on the global object.
+                 * This avoids eval()/new Function(), so Layout works under a strict
+                 * Content-Security-Policy (no 'unsafe-eval' required).
+                 * @param {*} name  a function, or the name/dotted-path of a function
+                 * @return {*}       the resolved function (or the original value)
+                 */
+                , resolveFn = function (name) {
+                    if (typeof name !== "string") return name;
+                    var reg = $.layout.callbacks;
+                    if (reg && typeof reg[name] === "function") return reg[name];
+                    var parts = name.split("."), fn = window, i = 0;
+                    for (; i < parts.length; i++) {
+                        if (fn == null) return undefined;
+                        fn = fn[parts[i]];
+                    }
+                    return fn;
+                }
+
+                /**
                  * @param {!Object}   Instance
                  * @param {Array.<string>} a_fn
                  */
@@ -66,7 +87,7 @@
                             var fn = a_fn[i];
                             try {
                                 if (isStr(fn)) // 'name' of a function
-                                    fn = eval(fn);
+                                    fn = resolveFn(fn);
                                 if (typeof fn === "function")
                                     g(fn)(Instance);
                             } catch (ex) {
@@ -85,8 +106,8 @@
      * GENERIC $.layout METHODS - used by all layouts
      */
             $.layout = {
-                version: "1.8.4"
-                , revision: 1.8004 // eg: ver 1.4.4 = rev 1.0404 - major(n+).minor(nn)+patch(nn+)
+                version:"1.9.1"
+                , revision:1.9001 // eg: ver 1.4.4 = rev 1.0404 - major(n+).minor(nn)+patch(nn+)
 
                 // $.layout.browser REPLACES $.browser
                 , browser: {} // set below
@@ -1202,9 +1223,9 @@
                                         // function name cannot contain a comma,
                                         // so must be a function name AND a parameter to pass
                                         args = fn.split(",")
-                                            , fn = eval(args[0]);
+                                            , fn = resolveFn(args[0]);
                                     } else // just the name of an external function?
-                                        fn = eval(fn);
+                                        fn = resolveFn(fn);
                                 }
                                 // execute the callback, if exists
                                 if (typeof fn === "function") {
