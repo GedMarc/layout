@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>jQuery UI Layout Demos</title>
+	<style>
+		:root {
+			color-scheme: light dark;
+			font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+			line-height: 1.5;
+		}
+		body {
+			max-width: 72rem;
+			margin: 0 auto;
+			padding: 2rem 1.25rem 4rem;
+		}
+		header { margin-bottom: 2rem; }
+		h1 { margin-bottom: .25rem; }
+		.subtitle { margin-top: 0; color: #687078; }
+		.grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+			gap: 1rem;
+		}
+		.card {
+			display: block;
+			padding: 1rem 1.1rem;
+			border: 1px solid #b9c0c7;
+			border-radius: .6rem;
+			color: inherit;
+			text-decoration: none;
+			background: color-mix(in srgb, Canvas 96%, LinkText 4%);
+		}
+		.card:hover, .card:focus-visible {
+			border-color: LinkText;
+			box-shadow: 0 .2rem .8rem rgb(0 0 0 / 12%);
+			transform: translateY(-1px);
+		}
+		.card strong { display: block; margin-bottom: .25rem; color: LinkText; }
+		.card span { font-size: .92rem; }
+		footer { margin-top: 2.5rem; font-size: .9rem; }
+	</style>
+</head>
+<body>
+<header>
+	<h1>jQuery UI Layout Demos</h1>
+	<p class="subtitle">Interactive examples for <strong>layout-jquery3 1.9.1</strong>.</p>
+</header>
+<main class="grid">
+	<a class="card" href="basic.html"><strong>Basic</strong><span>A minimal five-pane layout.</span></a>
+	<a class="card" href="simple.html"><strong>Simple</strong><span>Default options with pane controls.</span></a>
+	<a class="card" href="container.html"><strong>Container</strong><span>A layout inside a page container.</span></a>
+	<a class="card" href="container_centered.html"><strong>Centered Container</strong><span>A centered, constrained layout.</span></a>
+	<a class="card" href="nested.html"><strong>Nested Layout</strong><span>Layouts nested inside panes.</span></a>
+	<a class="card" href="flexible_height_columns.html"><strong>Flexible-height Columns</strong><span>Columns that adapt to content height.</span></a>
+	<a class="card" href="custom_togglers.html"><strong>Custom Togglers</strong><span>Customized pane toggler controls.</span></a>
+	<a class="card" href="swap_panes.html"><strong>Swap Panes</strong><span>Move panes between layout edges.</span></a>
+	<a class="card" href="destroy.html"><strong>Destroy Layout</strong><span>Create and destroy a layout instance.</span></a>
+	<a class="card" href="destroy2.html"><strong>Destroy Nested Layout</strong><span>Lifecycle handling for nested layouts.</span></a>
+	<a class="card" href="accordion.html"><strong>Accordion</strong><span>Resizable jQuery UI accordions in panes.</span></a>
+	<a class="card" href="accordions_and_tabs_inside_layout.html"><strong>Accordions and Tabs</strong><span>Multiple widgets inside a layout.</span></a>
+	<a class="card" href="tabs_basic.html"><strong>Basic Tabs</strong><span>A layout integrated with jQuery UI tabs.</span></a>
+	<a class="card" href="layout_inside_tab.html"><strong>Layout Inside a Tab</strong><span>Initialize a layout within tab content.</span></a>
+	<a class="card" href="layouts_inside_tabs.html"><strong>Layouts Inside Tabs</strong><span>Multiple tab-hosted layouts.</span></a>
+	<a class="card" href="layout_inside_dialog.html"><strong>Layout Inside a Dialog</strong><span>A layout hosted by a jQuery UI dialog.</span></a>
+	<a class="card" href="saved_state.html"><strong>Saved State</strong><span>Persist and restore pane state.</span></a>
+	<a class="card" href="saved_state_nested.html"><strong>Saved Nested State</strong><span>Persist state across nested layouts.</span></a>
+</main>
+<footer>
+	<a href="https://github.com/GedMarc/layout">Source on GitHub</a>
+	&middot;
+	<a href="https://www.npmjs.com/package/layout-jquery3">Package on npm</a>
+</footer>
+</body>
+</html>
+
