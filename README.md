@@ -3,17 +3,27 @@ jQuery UI Layout
 
 <a href="https://snyk.io/test/github/GedMarc/layout?targetFile=package.json"><img src="https://snyk.io/test/github/GedMarc/layout/badge.svg?targetFile=package.json" alt="Known Vulnerabilities" data-canonical-src="https://snyk.io/test/github/GedMarc/layout?targetFile=package.json" style="max-width:100%;"></a>
 
+1.9.1
+-----------------
+- **CSP compliance**: removed all `eval()` usage from the layout core. String callbacks
+  are now resolved via a CSP-safe `resolveFn()` helper (checks `$.layout.callbacks`
+  then the global object by dotted-path), so Layout runs under a strict
+  Content-Security-Policy without needing `'unsafe-eval'`.
+- Update to jQuery 3.7.1 (latest 3.x)
+- Update to jQuery Migrate 3.4.1
+- Cleaned out stale/older jQuery, jQuery UI and layout versions from the repo
+
 1.8.5
 -----------------
 * Default masking and iframefix to false, allow switching usage to either
-  
+
   Can be applied per pane as well
   ```
   $().layout({draggableIframeFix:true,mask:false});
   $().layout({draggableIframeFix:false,mask:true});
   ```
   Applicable demo : layout_inside_dialog
-  
+
 1.8.4
 -----------------
 - Allows custom storage co-ordinates using Persist.JS
