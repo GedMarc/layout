@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<title>Layouts Inside Tabs</title>
 
-	<link rel="stylesheet" type="text/css" href="css/themes/smoothness/jquery-ui.css">
+	<link rel="stylesheet" type="text/css" href="css/jquery-ui-1.14.2/all.css">
 
 	<style type="text/css">
 	html {
@@ -370,7 +370,7 @@
 
 	</style>
 
-	<script type="text/javascript" src="js/jquery-3.7.1.js"></script><script type="text/javascript" src="js/jquery-migrate.js"></script>
+	<script type="text/javascript" src="js/jquery-4.0.0.js"></script>
 	<script type="text/javascript" src="js/jquery-ui.js"></script>
 	<script type="text/javascript" src="js/jquery.layout_and_plugins.js"></script>
 
@@ -430,7 +430,7 @@
 	var sidebarLayoutOptions = {
 		name:					'sidebarLayout' // only for debugging
 	,	showErrorMessages:		false	// some panes do not have an inner layout
-	,	resizeWhileDragging:	true
+	,	livePaneResizing:	true
 	,   north__size:			"30%"
 	,   south__size:			"30%"
 	,	minSize:				100
@@ -446,7 +446,7 @@
 	var tabLayoutOptions = {
 	//	name:					'tabPanelLayout' // only for debugging
 		resizeWithWindow:		false	// required because layout is 'nested' inside tabpanels container
-	//,	resizeWhileDragging:	true	// slow in IE because of the nested layouts
+	//,	livePaneResizing:	true	// slow in IE because of the nested layouts
 	,	resizerDragOpacity:		0.5
 	,	north__resizable:		false
 	,	south__resizable:		false

@@ -6,6 +6,86 @@ jQuery UI Layout
 - **Website:** https://gedmarc.github.io/layout/
 - **Live demos:** https://gedmarc.github.io/layout/demos/
 
+2.0.0 — 2026-07-23
+------------------
+
+Version 2 is the modern jQuery 4 baseline and a deliberately breaking cleanup release.
+
+- Requires **jQuery 4.x**. jQuery Migrate is not required or supported.
+- Supports jQuery UI 1.14.x for draggable resizers, widgets, and effects. jQuery UI is
+  optional when those integrations are not needed.
+- Removes Internet Explorer, quirks-mode, browser-sniffing, alpha-filter, iframe-shim,
+  ActiveX, Google Gears, Flash, and old WebKit/Firefox workaround code.
+- Removes the obsolete `browserZoom`, `slideOffscreen`, `pseudoClose`, and legacy
+  DataTables callback plugins.
+- Uses native `localStorage` and `JSON` for state management. Persist.js and the old
+  cookie utility have been removed.
+- Removes the old option-name translation layer. Use current option names such as
+  `applyDemoStyles`, `livePaneResizing`, `children`, and `maskContents` directly.
+- Adds CommonJS, AMD, and browser-global loading plus reproducible build and runtime tests.
+- Ships TypeScript declarations for options, callbacks, pane state, persistence, instance
+  methods, namespace utilities, and the jQuery plugin augmentation.
+- Remains CSP-safe for script execution without `'unsafe-eval'`. Core-generated elements
+  use DOM/CSSOM APIs rather than literal inline-style or inline-event markup. Layout's
+  runtime geometry still necessarily writes element styles through the CSSOM.
+
+### State API migration
+
+| 1.x API/option | 2.0 replacement |
+| --- | --- |
+| `saveCookie()` | `saveState()` |
+| `readCookie()` | `readStoredState()` |
+| `loadCookie()` | `loadStoredState()` |
+| `deleteCookie()` | `deleteState()` |
+| `stateManagement.cookie.name` | `stateManagement.storageKey` |
+
+### TypeScript
+
+The package includes its own declaration file; no separate `@types` package is needed.
+Importing the CommonJS bundle returns the augmented jQuery object:
+
+```ts
+import $ = require("layout-jquery3");
+
+const options: JQueryLayout.Options = {
+  west: {
+    size: "25%",
+    onclose_end(pane, paneElement, state) {
+      console.log(pane, paneElement, state.isClosed);
+    }
+  },
+  stateManagement: { enabled: true }
+};
+
+const layout = $("#layout").layout(options);
+layout?.open("west");
+```
+
+Finite values are represented as literal unions, including `PaneName`,
+`BorderPaneName`, `ButtonAction`, and `Breakpoint`. A native typed set can be used when
+an application needs set operations:
+
+```ts
+const panes: ReadonlySet<JQueryLayout.PaneName> = new Set(["west", "center"]);
+```
+
+At runtime the corresponding ordered pane collections remain available as
+`$.layout.config.allPanes` and `$.layout.config.borderPanes`.
+
+### Development
+
+The historical npm package name remains `layout-jquery3` so existing consumers can take
+the semver-major upgrade instead of moving to an unrelated package coordinate.
+
+```sh
+npm install
+npm test
+npm run test:types
+```
+
+`npm test` rebuilds all distribution/demo artifacts, checks for stale or legacy runtime
+patterns, and runs the jQuery 4 + jQuery UI 1.14 integration tests in jsdom.
+
 1.9.1
 -----------------
 - **CSP compliance**: removed all `eval()` usage from the layout core. String callbacks

@@ -6,29 +6,37 @@
  *	Assign this callback to the pane.onresize event:
  *
  *	SAMPLE:
- *	< jQuery UI 1.9: $("#elem").tabs({ show: $.layout.callbacks.resizePaneAccordions });
- *	> jQuery UI 1.9: $("#elem").tabs({ activate: $.layout.callbacks.resizePaneAccordions });
+ *	$("#elem").tabs({ activate: $.layout.callbacks.resizePaneAccordions });
  *	$("body").layout({ center__onresize: $.layout.callbacks.resizePaneAccordions });
  *
- *	Version:	1.2 - 2013-01-12
+ *	Version:	2.0
  *	Author:		Kevin Dalman (kevin@jquery-dev.com)
  */
-;(function ($) {
-var _ = $.layout;
+;(function (factory) {
+	if (typeof module === "object" && module.exports) {
+		module.exports = factory(require("jquery"));
+	} else if (typeof define === "function" && define.amd) {
+		define(["jquery"], factory);
+	} else {
+		factory(window.jQuery);
+	}
+}(function ($) {
+	var _ = $.layout;
 
 // make sure the callbacks branch exists
-if (!_.callbacks) _.callbacks = {};
+if (!_) throw new Error("resizePaneAccordions requires jQuery UI Layout");
+_.callbacks = _.callbacks || {};
 
-_.callbacks.resizePaneAccordions = function (x, ui) {
-	// may be called EITHER from layout-pane.onresize OR tabs.show
+_.callbacks.resizePaneAccordions = function (event, ui) {
+	// may be called from a layout pane resize or tabs activate
 	var $P = ui.jquery ? ui : $(ui.newPanel || ui.panel);
 	// find all VISIBLE accordions inside this pane and resize them
 	$P.find(".ui-accordion:visible").each(function(){
 		var $E = $(this);
-		if ($E.data("accordion"))		// jQuery < 1.9
-			$E.accordion("resize");
-		if ($E.data("ui-accordion"))	// jQuery >= 1.9
+		if ($E.data("ui-accordion"))
 			$E.accordion("refresh");
 	});
 };
-})( jQuery );
+
+	return $;
+}));

@@ -1,9 +1,21 @@
 {
 	"name": "layout-jquery3",
 	"title": "UI Layout",
-	"description": "Create advanced UI layouts with sizable, collapsible, nested panels and tons of options. Layout can create any UI look you want; from simple headers or sidebars to a complex application with toolbars, menus, help-panels, status bars, sub-forms, etc. Integrates with and enhances other UI widgets, like tabs, accordions and dialogs, to create rich interfaces.",
-	"version": "1.9.1",
+	"description": "A modern jQuery 4 layout manager with resizable, collapsible, slidable, and nested panels.",
+	"version": "2.0.0",
 	"main": "dist/jquery.layout_and_plugins.min.js",
+	"types": "dist/jquery.layout_and_plugins.d.ts",
+	"files": [
+		"dist/",
+		"LICENSE.txt",
+		"README.md"
+	],
+	"scripts": {
+		"build": "node scripts/build.mjs",
+		"check": "node scripts/check.mjs",
+		"test:types": "tsc --project tsconfig.types.json",
+		"test": "npm run build && npm run check && npm run test:types && node --test test/layout.test.mjs test/no-jquery-ui.test.cjs test/version-guard.test.cjs"
+	},
 	"keywords": [
 		"ui",
 		"layout"
@@ -24,22 +36,34 @@
 			"url": "http://www.guicedee.com"
 		}
 	],
-	"licenses": [
-		{
-			"type": "MIT",
-			"url": "http://www.opensource.org/licenses/mit-license.php"
-		},
-		{
-			"type": "GPLv3",
-			"url": "http://www.gnu.org/licenses/gpl.html"
+	"license": "MIT OR GPL-3.0-or-later",
+	"homepage": "https://gedmarc.github.io/layout/",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/GedMarc/layout.git"
+	},
+	"bugs": {
+		"url": "https://github.com/GedMarc/layout/issues"
+	},
+	"peerDependencies": {
+		"jquery": ">=4.0.0 <5",
+		"jquery-ui": ">=1.14.0 <2"
+	},
+	"peerDependenciesMeta": {
+		"jquery-ui": {
+			"optional": true
 		}
-	],
-	"homepage": "https://github.com/allpro/layout",
-	"docs": "http://layout.jquery-dev.com/documentation.cfm",
-	"bugs": "https://groups.google.com/forum/#!forum/jquery-ui-layout",
-	"download": "https://github.com/allpro/layout/archive/master.zip",
-	"dependencies": {
-		"jquery": "^3.7.1",
-		"jquery-migrate": "3.4.1"
+	},
+	"devDependencies": {
+		"@types/jquery": "4.0.1",
+		"clean-css": "^5.3.3",
+		"jquery": "4.0.0",
+		"jquery-ui": "1.14.2",
+		"jsdom": "^26.1.0",
+		"terser": "^5.43.1",
+		"typescript": "7.0.2"
+	},
+	"engines": {
+		"node": ">=20"
 	}
 }

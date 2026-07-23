@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<title>Layout Destroy Demo #2</title>
 
@@ -14,7 +14,7 @@
 
 	</style>
 
-	<script type="text/javascript" src="js/jquery-3.7.1.js"></script><script type="text/javascript" src="js/jquery-migrate.js"></script>
+	<script type="text/javascript" src="js/jquery-4.0.0.js"></script>
 	<script type="text/javascript" src="js/jquery-ui.js"></script>
 	<script type="text/javascript" src="../source/stable/jquery.layout_and_plugins.js"></script>
 	<script type="text/javascript" src="js/debug.js"></script>
@@ -24,9 +24,6 @@
 
 	// utility to log state-data for demo purposes
 	function outputHashStructure ( hash, title ) {
-		if ($.type(hash) === 'string') {
-			hash = eval(hash);
-		}
 		var data = getKeys( hash );
 		console.data( data, title || 'data' );
 		return data;
@@ -77,8 +74,8 @@
 
 		// sync checkbox with layout state options
 		var state = pageLayout.options.stateManagement;
-		$('#autoSaveState').attr("checked", (state.enabled && !!state.autoSave) );
-		$('#autoLoadState').attr("checked", (state.enabled && !!state.autoLoad) );
+		$('#autoSaveState').prop("checked", (state.enabled && !!state.autoSave) );
+		$('#autoLoadState').prop("checked", (state.enabled && !!state.autoLoad) );
 
 	});
 
@@ -145,19 +142,20 @@
 				onchange="var o = pageLayout.options.stateManagement; o.autoSave=this.checked; if (this.checked) o.enabled=true;"
 				onclick="this.blur(); this.focus();">
 				<label for="autoSaveState"><B>options.stateManagement.autoSave</B></label>
-				<br> &nbsp; &nbsp; &nbsp; save-state on window.unload &amp; layout.destroy()
+				<br> &nbsp; &nbsp; &nbsp; save state on pagehide &amp; layout.destroy()
 				<br><br>
-				<button onClick="pageLayout.deleteCookie()">pageLayout.deleteCookie()</button>
+				<button onClick="pageLayout.deleteState()">pageLayout.deleteState()</button>
 			</p>
 
-			<p><hr/>
+			<hr>
+			<div>
 <!--
 				<input value="pageLayout.west.children.layout1" type="text" style="width: 100%; font-size: 1.1em; padding: 5px; box-sizing: border-box;">
 				<button onClick="var v = $(this).prev().val(); outputHashStructure( v, v )">Log This Branch</button>&nbsp;&nbsp;&nbsp;
 				<button onClick="console.data( pageLayout, 'pageLayout' )">Log All Data</button>
 -->
 				<button onClick="outputHashStructure( pageLayout, 'pageLayout' )">Log Layout Data Structure</button>
-			</p>
+			</div>
 		</div>
 		<div class="ui-layout-south">Center South</div>
 	</div>
