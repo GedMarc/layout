@@ -3007,8 +3007,10 @@
                         if (!isInitialized())
                             return;
                         var pane = evtPane.call(this, evt_or_pane)
+                            , o = options[pane]
                             , s = state[pane]
                             , $P = $Ps[pane]
+                            , $R = $Rs[pane]
                         ;
                         if (pane === "center" || !$P || s.isHidden)
                             return; // pane does not exist OR is already hidden

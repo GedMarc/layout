@@ -37,6 +37,16 @@ test("initializes without the optional jQuery UI dependency", () => {
     assert.equal(layout.state.west.isClosed, true);
     layout.open("west", false, true);
     assert.equal(layout.state.west.isClosed, false);
+
+    layout.hide("west", true);
+    assert.equal(layout.state.west.isHidden, true);
+    assert.equal(layout.panes.west.css("display"), "none");
+    assert.equal(layout.resizers.west.css("display"), "none");
+    layout.show("west", true, true);
+    assert.equal(layout.state.west.isHidden, false);
+    assert.equal(layout.state.west.isClosed, false);
+    assert.notEqual(layout.panes.west.css("display"), "none");
+    assert.notEqual(layout.resizers.west.css("display"), "none");
     layout.destroy();
 });
 
