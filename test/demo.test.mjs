@@ -81,7 +81,7 @@ for (const file of demos) {
         t.after(() => window.close());
         if (file === 'index.html') {
             assert.equal(window.document.querySelectorAll('a[href$=".html"]').length, 18);
-            assert.match(window.document.body.textContent, /layout-jquery3 2\.0\.0/);
+            assert.match(window.document.body.textContent, /layout-jquery3 2\.0\.1/);
             return;
         }
         assert.equal($.fn.jquery, '4.0.0');

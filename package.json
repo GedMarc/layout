@@ -2,7 +2,7 @@
 	"name": "layout-jquery3",
 	"title": "UI Layout",
 	"description": "A modern jQuery 4 layout manager with resizable, collapsible, slidable, and nested panels.",
-	"version": "2.0.0",
+	"version": "2.0.1",
 	"main": "dist/jquery.layout_and_plugins.min.js",
 	"types": "dist/jquery.layout_and_plugins.d.ts",
 	"files": [

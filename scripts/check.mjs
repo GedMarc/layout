@@ -17,7 +17,7 @@ async function exists(path) {
 }
 
 const packageJson = JSON.parse(await readFile(join(root, "package.json"), "utf8"));
-if (packageJson.version !== "2.0.0") fail("package.json must be version 2.0.0");
+if (packageJson.version !== "2.0.1") fail("package.json must be version 2.0.1");
 if (packageJson.peerDependencies?.jquery !== ">=4.0.0 <5") fail("jQuery 4 peer range is missing");
 if (JSON.stringify(packageJson).includes("jquery-migrate")) fail("jquery-migrate must not be declared");
 if (packageJson.types !== "dist/jquery.layout_and_plugins.d.ts") fail("TypeScript declaration entry point is missing");
@@ -53,7 +53,7 @@ for (const file of maintainedSources) {
 }
 
 const bundleSource = await readFile(join(root, maintainedSources[0]), "utf8");
-if (!bundleSource.includes('version:"2.0.0"')) fail("bundle runtime version is not 2.0.0");
+if (!bundleSource.includes('version:"2.0.1"')) fail("bundle runtime version is not 2.0.1");
 if (!bundleSource.includes("jQuery UI Layout 2.0 requires jQuery 4 or newer")) fail("jQuery 4 runtime guard is missing");
 if (bundleSource.includes("browserZoom") || bundleSource.includes("slideOffscreen") || bundleSource.includes("resizeDataTables")) {
     fail("removed plugins remain in the bundle");

@@ -66,7 +66,7 @@ function createLayout(id, options = {}, onlyPane) {
 test("loads with jQuery 4 and jQuery UI 1.14", () => {
     assert.equal($.fn.jquery, "4.0.0");
     assert.equal($.ui.version, "1.14.2");
-    assert.equal($.layout.version, "2.0.0");
+    assert.equal($.layout.version, "2.0.1");
     assert.equal(exportedJQuery, $);
     assert.equal(typeof $.fn.draggable, "function");
     assert.equal($.layout.browser, undefined);

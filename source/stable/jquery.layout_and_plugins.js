@@ -1,8 +1,8 @@
 /**
  * @preserve
- * jQuery UI Layout 2.0.0
- * $Date: 2026-07-23 $
- * $Rev: 2.0.0 $
+ * jQuery UI Layout 2.0.1
+ * $Date: 2026-11-08 $
+ * $Rev: 2.0.1 $
  *
  * Copyright (c) 2014 Kevin Dalman (http://jquery-dev.com)
  * Based on work by Fabrizio Balliano (http://www.fabrizioballiano.net)
@@ -80,7 +80,7 @@
      * GENERIC $.layout METHODS - used by all layouts
      */
             $.layout = {
-                version:"2.0.0"
+                version:"2.0.1"
                 , revision:2.0000 // eg: ver 1.4.4 = rev 1.0404 - major(n+).minor(nn)+patch(nn+)
 
 

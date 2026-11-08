@@ -6,6 +6,19 @@ jQuery UI Layout
 - **Website:** https://gedmarc.github.io/layout/
 - **Live demos:** https://gedmarc.github.io/layout/demos/
 
+2.0.1 — 2026-11-08
+------------------
+
+Patch release covering [#37](https://github.com/GedMarc/layout/pull/37) and
+[#38](https://github.com/GedMarc/layout/pull/38).
+
+- Fix missing pane options and resizer variables in `hide()`, including initially
+  hidden panes. Thanks to @gendoas281 for reporting #36 and proposing the fix.
+- Restore `onshow_end` callbacks and bound events when showing hidden panes,
+  firing once after `onopen_end` and before `onresize_end`, including delayed effects.
+- Expand regression coverage and add `npm run test:demos` for demo integration checks.
+- Regenerate distribution and demo bundles. Dependency requirements remain unchanged.
+
 2.0.0 — 2026-07-23
 ------------------
 

@@ -79,6 +79,6 @@ await cp(join(jqueryUi, "themes", "base"), join(demoCss, "jquery-ui-1.14.2"), {
     force: true
 });
 
-console.log("Built jQuery UI Layout 2.0.0 artifacts.");
+console.log("Built jQuery UI Layout 2.0.1 artifacts.");
 
 

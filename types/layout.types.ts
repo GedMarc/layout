@@ -61,7 +61,7 @@ $.layout.callbacks.afterResize = (
 };
 
 const exportedJQuery: JQueryStatic = $;
-exportedJQuery.layout.version satisfies "2.0.0";
+exportedJQuery.layout.version satisfies "2.0.1";
 
 // @ts-expect-error center cannot be opened or closed.
 layout?.open("center");

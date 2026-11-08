@@ -454,7 +454,7 @@ declare global {
         }
 
         interface Static {
-            version: "2.0.0";
+            version: "2.0.1";
             revision: number;
             defaults: Options & Record<PaneName, PaneOptions>;
             effects: Effects;
