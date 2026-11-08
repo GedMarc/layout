@@ -36,8 +36,11 @@ function addLayout(id) {
     return $(`#${id}`);
 }
 
-function createLayout(id, options = {}) {
-    return addLayout(id).layout($.extend(true, {
+function createLayout(id, options = {}, onlyPane) {
+    const container = addLayout(id);
+    if (onlyPane)
+        container.children().not(`.ui-layout-center, .ui-layout-${onlyPane}`).remove();
+    return container.layout($.extend(true, {
         name: id,
         resizeWithWindow: false,
         panes: { fxName: "none" },
@@ -129,6 +132,113 @@ test("supports keyboard hotkeys and accessible custom buttons", () => {
 
     layout.destroy();
     $("#controls, #toggle-west").remove();
+});
+
+for (const pane of ["north", "south", "east", "west"]) {
+    for (const initClosed of [false, true]) {
+        test(`hides and shows the ${initClosed ? "closed" : "open"} ${pane} pane`, () => {
+            const id = `hide-show-${pane}-${initClosed}`;
+            let hideCount = 0;
+            let showCount = 0;
+            const layout = createLayout(id, {
+                [pane]: {
+                    initClosed,
+                    onhide_end: () => { hideCount += 1; },
+                    onshow_start: () => { showCount += 1; }
+                }
+            }, pane);
+
+            try {
+                const assertHidden = () => {
+                    assert.equal(layout.state[pane].isHidden, true);
+                    assert.equal(layout.state[pane].isClosed, true);
+                    assert.equal(layout.state[pane].isVisible, false);
+                    assert.equal(layout.panes[pane].css("display"), "none");
+                    assert.equal(layout.resizers[pane].css("display"), "none");
+                };
+
+                layout.hide(pane, true);
+                assertHidden();
+                layout.hide(pane, true);
+                assertHidden();
+                assert.equal(hideCount, 1, "hiding an already hidden pane is a no-op");
+
+                layout.show(pane, false, true);
+                assert.equal(layout.state[pane].isHidden, false);
+                assert.equal(layout.state[pane].isClosed, true);
+                assert.equal(layout.panes[pane].css("display"), "none");
+                assert.notEqual(layout.resizers[pane].css("display"), "none");
+                assert.equal(showCount, 1);
+
+                layout.hide(pane, true);
+                assertHidden();
+                layout.show(pane, true, true);
+                assert.equal(layout.state[pane].isHidden, false);
+                assert.equal(layout.state[pane].isClosed, false);
+                assert.equal(layout.state[pane].isVisible, true);
+                assert.notEqual(layout.panes[pane].css("display"), "none");
+                assert.notEqual(layout.resizers[pane].css("display"), "none");
+                assert.equal(hideCount, 2);
+                assert.equal(showCount, 2);
+            } finally {
+                layout.destroy();
+                $(`#${id}`).remove();
+            }
+        });
+    }
+}
+
+for (const triggerEventsOnLoad of [false, true]) {
+    test(`initializes hidden panes with triggerEventsOnLoad=${triggerEventsOnLoad}`, () => {
+        const id = `init-hidden-${triggerEventsOnLoad}`;
+        let hideCount = 0;
+        const layout = createLayout(id, {
+            west: {
+                initHidden: true,
+                triggerEventsOnLoad,
+                onhide_end: () => { hideCount += 1; }
+            }
+        }, "west");
+
+        try {
+            assert.equal(layout.state.initialized, true);
+            assert.equal(layout.state.west.isHidden, true);
+            assert.equal(layout.state.west.isVisible, false);
+            assert.equal(layout.panes.west.css("display"), "none");
+            assert.equal(layout.resizers.west.css("display"), "none");
+            assert.equal(hideCount, triggerEventsOnLoad ? 1 : 0);
+
+            layout.show("west", true, true);
+            assert.equal(layout.state.west.isHidden, false);
+            assert.equal(layout.state.west.isClosed, false);
+        } finally {
+            layout.destroy();
+            $(`#${id}`).remove();
+        }
+    });
+}
+
+test("allows onhide_start to cancel hiding without changing the pane or resizer", () => {
+    let hideCount = 0;
+    const layout = createLayout("cancel-hide", {
+        west: {
+            onhide_start: () => false,
+            onhide_end: () => { hideCount += 1; }
+        }
+    }, "west");
+
+    try {
+        layout.hide("west", true);
+        assert.equal(layout.state.west.isHidden, false);
+        assert.equal(layout.state.west.isClosed, false);
+        assert.equal(layout.state.west.isVisible, true);
+        assert.notEqual(layout.panes.west.css("display"), "none");
+        assert.notEqual(layout.resizers.west.css("display"), "none");
+        assert.equal(hideCount, 0);
+    } finally {
+        layout.destroy();
+        $("#cancel-hide").remove();
+    }
 });
 
 
