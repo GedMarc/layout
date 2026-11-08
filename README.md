@@ -86,6 +86,15 @@ npm run test:types
 `npm test` rebuilds all distribution/demo artifacts, checks for stale or legacy runtime
 patterns, and runs the jQuery 4 + jQuery UI 1.14 integration tests in jsdom.
 
+After building, `npm run test:demos` runs the optional, slower runtime checks for all
+18 demos and their index, including tab/accordion activation, custom toggling,
+dialog reopening, saved state, and nested destroy/recreate smoke checks. The harness
+loads local demo scripts without network access and supplies fixture dimensions,
+visibility checks, `CSS.escape`, and a narrow jsdom 26 selector workaround for UI tabs.
+Deferred hidden layouts are reported rather than claimed as rendered; the main suite
+covers pane hide/show callbacks. These tests do not replace browser checks for
+rendering, dragging, animation, or responsive geometry.
+
 1.9.1
 -----------------
 - **CSP compliance**: removed all `eval()` usage from the layout core. String callbacks

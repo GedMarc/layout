@@ -22,10 +22,11 @@ test("initializes without the optional jQuery UI dependency", () => {
     $.expr.pseudos.hidden = () => false;
 
     require("..");
+    let showEndCount = 0;
     const layout = $("#layout").layout({
         resizeWithWindow: false,
         panes: { fxName: "none" },
-        west: { size: 180 }
+        west: { size: 180, onshow_end: () => { showEndCount += 1; } }
     });
 
     assert.equal(layout.state.initialized, true);
@@ -47,6 +48,7 @@ test("initializes without the optional jQuery UI dependency", () => {
     assert.equal(layout.state.west.isClosed, false);
     assert.notEqual(layout.panes.west.css("display"), "none");
     assert.notEqual(layout.resizers.west.css("display"), "none");
+    assert.equal(showEndCount, 1);
     layout.destroy();
 });
 

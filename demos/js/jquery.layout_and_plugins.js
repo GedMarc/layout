@@ -3395,15 +3395,16 @@
                             }
 
                             // set classes, position handles and execute callbacks...
-                            setAsOpen(pane);
+                            setAsOpen(pane, false, isShowing);
                         }
                     }
 
                     /**
                      * @param {string} pane  The pane just opened, for example north, south, east, or west
                      * @param {boolean=} [skipCallback=false]
+                     * @param {boolean=} [isShowing=false] True when this open completes showing a hidden pane
                      */
-                    , setAsOpen = function (pane, skipCallback) {
+                    , setAsOpen = function (pane, skipCallback, isShowing) {
                         var
                             $P = $Ps[pane]
                             , $R = $Rs[pane]
@@ -3463,8 +3464,8 @@
                         if (!skipCallback && (state.initialized || o.triggerEventsOnLoad) && $P.is(":visible")) {
                             // onopen callback
                             _runCallbacks("onopen_end", pane);
-                            // onshow callback - TODO: should this be here?
-                            if (s.isShowing)
+                            // Use the opening operation's saved flag; pane state is already cleared.
+                            if (isShowing)
                                 _runCallbacks("onshow_end", pane);
 
                             // ALSO call onresize because layout-size *may* have changed while pane was closed

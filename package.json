@@ -13,6 +13,7 @@
 	"scripts": {
 		"build": "node scripts/build.mjs",
 		"check": "node scripts/check.mjs",
+		"test:demos": "node --test test/demo.test.mjs",
 		"test:types": "tsc --project tsconfig.types.json",
 		"test": "npm run build && npm run check && npm run test:types && node --test test/layout.test.mjs test/no-jquery-ui.test.cjs test/version-guard.test.cjs"
 	},
